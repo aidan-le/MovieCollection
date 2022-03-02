@@ -221,61 +221,95 @@ public class MovieCollection
     sortResults(results);
     printMovieList(results);
   }
-  
-  private void listGenres() {
-/*
-    ArrayList<String> allGenres = new ArrayList<>();
 
-    for (int i = 0; i < movies.size(); i++) {
-      String[] genres = movies.get(i).getGenres().split("\\|");
-      for (String movieGenre : genres) {
-        boolean isDuplicate = false;
-        for (String genre : allGenres) {
-          if (movieGenre.equals(genre)) {
-            isDuplicate = true;
+    private void listGenres()
+    {
+      ArrayList<String> allGenres = new ArrayList<>();
+
+      for (int i = 0; i < movies.size(); i++) {
+        String[] genres = movies.get(i).getGenres().split("\\|");
+        for (String movieGenre : genres) {
+          boolean isDuplicate = false;
+          for (String genre : allGenres) {
+            if (movieGenre.equals(genre)) {
+              isDuplicate = true;
+            }
+          }
+          if (!isDuplicate) {
+            allGenres.add(movieGenre);
           }
         }
-        if (!isDuplicate) {
-          allGenres.add(movieGenre);
+      }
+
+      // sort list
+      printList(allGenres);
+
+      System.out.print("Enter a genre number: ");
+      int pick = scanner.nextInt();
+      String genrePicked = allGenres.get(pick - 1);
+
+      ArrayList<Movie> results = new ArrayList<Movie>();
+      for (Movie movie : movies) {
+        String movieKeyword = movie.getGenres();
+        if (movieKeyword.contains(genrePicked))  {
+          results.add(movie);
         }
       }
+
+      // sort the results by title
+      sortResults(results);
+      printMovieList(results);
+      scanner.nextLine(); // for some reason you need this
     }
-
-    // sort list
-    printList(allGenres);
-
-    System.out.print("Enter a genre number: ");
-    String searchTerm = scanner.nextInt().toLowerCase();
-
-
-*/
-  }
   
   private void listHighestRated()
   {
-//    System.out.println();
-//    for (int i = 0; i < movies.size(); i++) {
-//      double rating = movies.get(i).getUserRating(); //
-//      boolean ratingIsBiggest = true;
-//
-//      for (int k = i + 1; k < movies.size(); k++) {
-//        double anotherRating = movies.get(k).getUserRating(); //
-//        if (anotherRating > rating) {
-//          ratingIsBiggest = false;
-//        }
-//      }
-//
-//      if (highestRatest.size)
-//
-//      if (ratingIsBiggest) {
-//
-//      }
-//    }
+    ArrayList<Movie> movieList = new ArrayList<>();
+
+    for (int i = 0; i < movies.size(); i++) {
+      double rating = movies.get(i).getUserRating(); //
+      boolean ratingIsBiggest = true;
+
+      for (int k = i + 1; k < movies.size(); k++) {
+        double anotherRating = movies.get(k).getUserRating(); //
+        if (anotherRating > rating) {
+          ratingIsBiggest = false;
+        }
+      }
+
+      if (movieList.size() >= 50) {
+        break;
+      } else if (ratingIsBiggest) {
+        movieList.add(movies.get(i));
+      }
+    }
+
+    printMovieList(movieList);
   }
   
   private void listHighestRevenue()
   {
-    /* TASK 6: IMPLEMENT ME! */
+    ArrayList<Movie> movieList = new ArrayList<>();
+
+    for (int i = 0; i < movies.size(); i++) {
+      double revenue = movies.get(i).getRevenue(); //
+      boolean biggest = true;
+
+      for (int k = i + 1; k < movies.size(); k++) {
+        double anotherRevenue = movies.get(k).getRevenue(); //
+        if (anotherRevenue > revenue) {
+          biggest = false;
+        }
+      }
+
+      if (movieList.size() >= 50) {
+        break;
+      } else if (biggest) {
+        movieList.add(movies.get(i));
+      }
+    }
+
+    printMovieList(movieList);
   }
 
   private void importMovieList(String fileName)
@@ -327,13 +361,12 @@ public class MovieCollection
   // ADD ANY ADDITIONAL PRIVATE HELPER METHODS you deem necessary
   private void printList(ArrayList<String> list) {
     for (int i = 0; i < list.size(); i++) {
-      System.out.println(i+". "+list.get(i));
+      System.out.println(i + 1+". "+list.get(i));
     }
   }
   private void printMovieList(ArrayList<Movie> list) {
     for (int i = 0; i < list.size(); i++) {
-      System.out.println(i+". "+list.get(i).toString());
+      System.out.println(i + 1+". "+list.get(i).toString());
     }
   }
-
 }
